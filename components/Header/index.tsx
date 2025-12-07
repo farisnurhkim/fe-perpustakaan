@@ -1,17 +1,16 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Badge, LogOut, Shield, User, UserIcon } from 'lucide-react'
+import { LogOut, Shield, User, UserIcon } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
-import { SessionExtended } from '@/types/auth'
 
-const Header = ({ session }: { session: SessionExtended }) => {
-    const user = session?.user;
+const Header = ({ user }: { user: any }) => {
     return (
         <header className="bg-slate-900 border-b border-slate-700 sticky top-0 z-10 shadow-sm">
-            <div className="container mx-auto px-4 py-4">
+            <div className="container px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <Image

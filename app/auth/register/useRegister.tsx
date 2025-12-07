@@ -3,6 +3,7 @@
 import authServices from "@/services/auth.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -21,6 +22,7 @@ const RegisterSchema = z.object({
 type RegisterInput = z.infer<typeof RegisterSchema>;
 
 const useRegister = () => {
+    const router = useRouter();
     const [visiblePassword, setVisiblePassword] = useState({
         password: false,
         confirmPassword: false,
@@ -62,6 +64,7 @@ const useRegister = () => {
         onSuccess(data) {
             reset();
             toast.success(data.data.message || "Registrasi berhasil! Silahkan login.");
+            router.push("/auth/login");
         }
     })
 

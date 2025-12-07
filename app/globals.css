@@ -43,10 +43,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  background-color: oklch(1 0 0);
-  color: oklch(.145 0 0);
-}
 
 :root {
   --radius: 0.625rem;
@@ -117,6 +113,11 @@ body {
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
 @layer base {
   *,  :after, :before, ::backdrop  {
     @apply border-border outline-ring/50;
@@ -126,15 +127,8 @@ body {
     padding: 0;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-slate-950 text-background;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
+

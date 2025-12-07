@@ -44,7 +44,7 @@ const Login = () => {
                                         name='email'
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className='text-gray-300'>Nama Lengkap</FormLabel>
+                                                <FormLabel className='text-gray-300'>Email</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type='email'

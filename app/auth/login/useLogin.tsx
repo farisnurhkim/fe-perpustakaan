@@ -63,8 +63,8 @@ const useLogin = () => {
         },
         onSuccess(result: any) {
             toast.success("Berhasil login!");
-
             router.refresh();
+            reset();
             router.replace("/")
         },
     });

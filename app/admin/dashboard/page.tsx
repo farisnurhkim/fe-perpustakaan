@@ -1,12 +1,11 @@
+import { getCurrentUser } from '@/lib/currentUser'
 import DashboardAdmin from './DashboardAdmin'
-import { SessionProvider } from "next-auth/react"
 
-const Page = () => {
+const Page = async () => {
+    const user = await getCurrentUser();
     return (
         <>
-            <SessionProvider>
-                <DashboardAdmin />
-            </SessionProvider>
+            <DashboardAdmin user={user} />
         </>
     )
 }
