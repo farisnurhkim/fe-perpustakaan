@@ -1,9 +1,11 @@
 import { LucideIcon } from "lucide-react";
 
-interface DashboardCardProps {
-  label: string;
-  value: string | number;
-  description: string;
-  icon: LucideIcon; 
-  onDownload?: () => void;
+export interface ICardDashboard {
+    label: string;
+    value: number;
+    description: string;
+    icon: LucideIcon;              
+    variant: "emerald" | "cyan" | "orange" | "blue" | "rose";               
+    modal?: () => void;
+    linkDownload?: string;        
 }

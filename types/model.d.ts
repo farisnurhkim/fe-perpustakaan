@@ -21,15 +21,16 @@ export interface IUser {
 export interface IPeminjaman{
     _id:string;
     barcode: string;
-    id_user: IUser;
+    user: IUser;
     tgl_pinjam: Date;
     batas_pinjam: Date;
     batas_ambil: Date;
     status: 'dipinjam' | 'dikembalikan' | 'terlambat' | 'pending_pengembalian' | 'pending_peminjaman';
     detail_peminjaman: Array<{
-        id_buku: string;
+        buku: IBuku;
         jumlah: number;
     }>;
+    pengembalian: IPengembalian | null
 }
 
 export interface IPengembalian {

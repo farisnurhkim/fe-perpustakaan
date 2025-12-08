@@ -28,7 +28,7 @@ const Header = ({ user }: { user: any }) => {
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="hidden sm:flex gap-3 h-auto p-3 hover:bg-slate-800">
+                                <Button id="trigger-desktop" variant="ghost" className="hidden sm:flex gap-3 h-auto p-3 hover:bg-slate-800">
                                     <Avatar className='w-11 h-11'>
                                         <AvatarImage src={"/user.jpg"} />
                                         <AvatarFallback>{"Nama"}</AvatarFallback>
@@ -66,7 +66,7 @@ const Header = ({ user }: { user: any }) => {
                                     <UserIcon className="w-4 h-4 mr-2" />
                                     Edit Profil
                                 </DropdownMenuItem>
-                                {"admin" === 'admin' && (
+                                {user?.status_user === 'admin' && (
                                     <>
                                         <DropdownMenuSeparator className="bg-slate-700" />
                                     </>
@@ -86,7 +86,7 @@ const Header = ({ user }: { user: any }) => {
                         {/* Mobile User Icon */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="sm:hidden hover:bg-emerald-950/50">
+                                <Button id="trigger-mobile" variant="ghost" size="icon" className="sm:hidden hover:bg-emerald-950/50">
                                     <UserIcon className="w-5 h-5 text-gray-300" />
                                 </Button>
                             </DropdownMenuTrigger>
