@@ -43,7 +43,9 @@ const CardStatsBox = ({ label, value, description, icon: Icon, variant = "emeral
     return (
         <Card className={cn(
             'bg-slate-900 border-2 border-slate-600 py-5 hover:border-emerald-700 transition-colors duration-300 hover:cursor-pointer',
-        )}>
+        )}
+        onClick={modal}
+        >
             <CardContent>
                 <div className='flex flex-col justify-between w-full'>
                     <div className='flex items-center justify-between'>

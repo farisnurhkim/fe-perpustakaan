@@ -18,6 +18,8 @@ export interface IUser {
     di_blokir: boolean;
 }
 
+export type StatusPeminjaman = 'dipinjam' | 'dikembalikan' | 'terlambat' | 'pending_pengembalian' | 'pending_peminjaman'
+
 export interface IPeminjaman{
     _id:string;
     barcode: string;
@@ -25,7 +27,7 @@ export interface IPeminjaman{
     tgl_pinjam: Date;
     batas_pinjam: Date;
     batas_ambil: Date;
-    status: 'dipinjam' | 'dikembalikan' | 'terlambat' | 'pending_pengembalian' | 'pending_peminjaman';
+    status: StatusPeminjaman;
     detail_peminjaman: Array<{
         buku: IBuku;
         jumlah: number;

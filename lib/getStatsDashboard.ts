@@ -1,6 +1,6 @@
 import bukuService from "@/services/buku.service";
 import peminjamanService from "@/services/peminjaman.service";
-import { IBuku, IPeminjaman } from "@/types/model";
+import { IBuku, IPeminjaman, StatusPeminjaman } from "@/types/model";
 
 export interface IStatsDashboard {
   totalStockBuku: number;
@@ -13,9 +13,17 @@ export interface IStatsDashboard {
   totalKeterlambatan: number;
   totalDenda: number;
   isError: boolean;
+  dataPeminjaman: IPeminjaman;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+export const filteredDataPeminjaman = (data: IPeminjaman[], status: StatusPeminjaman) => {
+    if (!data) return [];
+    return data.filter((item: IPeminjaman) => item.status === status);
+}
+
+
 export const getStatsDashboard = async (user: any) => {
     let dataPeminjaman;
     let dataBuku;
@@ -33,7 +41,7 @@ export const getStatsDashboard = async (user: any) => {
         console.log(error)
     }
 
-    const bukuDipinjam = dataPeminjaman.filter((data: IPeminjaman) => data.status === "dipinjam");
+    const bukuDipinjam = filteredDataPeminjaman(dataPeminjaman, "dipinjam");
 
     const totalBukuDipinjam = bukuDipinjam.reduce((total: any, peminjaman: any) => {
         const jumlahPerPeminjaman = peminjaman.detail_peminjaman.reduce(
@@ -43,10 +51,9 @@ export const getStatsDashboard = async (user: any) => {
         return total + jumlahPerPeminjaman;
     }, 0)
 
-
-    const totalKonfirmasiPeminjaman = dataPeminjaman.filter((data: IPeminjaman) => data.status === "pending_peminjaman").length;
-    const totalKonfirmasiPengembalian = dataPeminjaman.filter((data: IPeminjaman) => data.status === "pending_pengembalian").length;
-    const totalKeterlambatan = dataPeminjaman.filter((data: IPeminjaman) => data.status === "terlambat").length;
+    const totalKonfirmasiPeminjaman = filteredDataPeminjaman(dataPeminjaman, "pending_peminjaman").length;
+    const totalKonfirmasiPengembalian = filteredDataPeminjaman(dataPeminjaman, "pending_pengembalian").length;
+    const totalKeterlambatan = filteredDataPeminjaman(dataPeminjaman, "terlambat").length;
 
     const totalInvoice = bukuDipinjam.length;
     const userIds = new Set(bukuDipinjam.map((item: IPeminjaman) => item.user._id));
@@ -55,6 +62,7 @@ export const getStatsDashboard = async (user: any) => {
     const totalStockBuku = dataBuku.reduce((total: any, buku: IBuku) => {
         return total + buku.stok;
     }, 0);
+
     const totalBukuPerJudul = dataBuku.length;
 
     const pengembalianTerlambat = dataPeminjaman.filter((data: IPeminjaman) => data.status === "terlambat");
@@ -73,7 +81,8 @@ export const getStatsDashboard = async (user: any) => {
         totalKonfirmasiPengembalian,
         totalKeterlambatan,
         totalDenda,
-        isError
+        isError,
+        dataPeminjaman
     }
 
 }
