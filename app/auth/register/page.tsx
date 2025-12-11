@@ -1,6 +1,6 @@
 import React from 'react'
 import Register from './Register'
-import { ReactQueryProvider } from '@/components/ReactQueryProvider'
+import { ReactQueryProvider } from '@/components/provider/ReactQueryProvider'
 
 const Page = () => {
   return (

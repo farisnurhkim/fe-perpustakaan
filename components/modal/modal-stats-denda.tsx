@@ -7,35 +7,36 @@ import BorrowCard from '../card/BorrowCard';
 import { BookOpen } from 'lucide-react';
 
 
-const ModalStatsDipinjam = () => {
+const ModalStatsDenda = () => {
     const { data, isOpen, onClose, modalType } = useModal();
-    const isOpenModal = isOpen && modalType === "bukuDipinjam"
+    const isOpenModal = isOpen && modalType === "keterlambatan";
 
-    if (!isOpenModal) {
+    if (!data || !isOpenModal) {
         return null;
     }
+    const peminjaman = data?.peminjaman ?? [];
 
-    const { peminjaman } = data;
-
-
+    const totalDenda = peminjaman.reduce((total: any, item: IPeminjaman) => {
+        return total + (item.pengembalian?.denda || 0)
+    }, 0);
 
     return (
-        <Dialog open={isOpenModal} onOpenChange={onClose}>
+        <Dialog open={isOpenModal} onOpenChange={() => onClose()}>
             <DialogContent className='bg-slate-900 text-white border border-slate-700 max-h-[90vh] scroll-dark overflow-y-auto'>
                 <DialogHeader>
-                    <DialogTitle>Detail Buku Sedang Dipinjam</DialogTitle>
+                    <DialogTitle>Keterlambatan</DialogTitle>
                     <DialogDescription>
-                        Total {peminjaman.totalBukuDipinjam ?? 0} eksemplar buku sedang dipinjam oleh {peminjaman.totalAnggota || 0} anggota ({peminjaman.totalInvoice ?? 0} invoice peminjaman)
+                        {peminjaman.length} peminjaman keterlambatan • Total denda: Rp {totalDenda.toLocaleString("id-ID")}
                     </DialogDescription>
                 </DialogHeader>
                 <div className='flex flex-col gap-4 '>
-                    {(!data || !peminjaman?.data || peminjaman.data.length === 0) && (
+                    {(!data || !peminjaman || peminjaman.length === 0) && (
                         <div className='w-full h-50 flex items-center justify-center flex-col'>
                             <BookOpen size={50} className='text-slate-400' />
                             <p className='text-slate-400'>Tidak ada data</p>
                         </div>
                     )}
-                    {peminjaman && peminjaman.data && peminjaman.data.map((item: IPeminjaman, index: number) => (
+                    {peminjaman && peminjaman.length !== 0 && peminjaman.map((item: IPeminjaman, index: number) => (
                         <BorrowCard item={item} key={index} />
                     ))}
                 </div>
@@ -44,4 +45,4 @@ const ModalStatsDipinjam = () => {
     )
 }
 
-export default ModalStatsDipinjam
+export default ModalStatsDenda

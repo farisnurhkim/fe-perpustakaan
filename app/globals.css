@@ -129,6 +129,23 @@
   body {
     @apply bg-slate-950 text-background;
   }
+  
+   .scroll-dark::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .scroll-dark::-webkit-scrollbar-track {
+    background: #252729; /* warna track gelap */
+  }
+
+  .scroll-dark::-webkit-scrollbar-thumb {
+    background: #4a4b4e; /* warna thumb terang */
+    border-radius: 2px;
+  }
+
+  .scroll-dark::-webkit-scrollbar-thumb:hover {
+    background: #c5c6c9; /* hover sedikit lebih terang */
+  }
 }
 
 

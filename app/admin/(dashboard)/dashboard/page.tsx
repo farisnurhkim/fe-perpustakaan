@@ -11,7 +11,7 @@ const Page = async () => {
 
     return (
         <>
-            <DashboardAdmin stats={stats} user={user} />
+            <DashboardAdmin stats={stats} />
         </>
     )
 }

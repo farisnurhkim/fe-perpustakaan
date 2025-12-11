@@ -42,9 +42,9 @@ const CardStatsBox = ({ label, value, description, icon: Icon, variant = "emeral
 
     return (
         <Card className={cn(
-            'bg-slate-900 border-2 border-slate-600 py-5 hover:border-emerald-700 transition-colors duration-300 hover:cursor-pointer',
+            'bg-slate-900 border-2 border-slate-600 py-5 hover:border-emerald-700 transition-colors duration-300',
         )}
-        onClick={modal}
+        
         >
             <CardContent>
                 <div className='flex flex-col justify-between w-full'>
@@ -63,7 +63,7 @@ const CardStatsBox = ({ label, value, description, icon: Icon, variant = "emeral
                         <h2 className={cn("text-3xl", currentStyle.text)}>{value}</h2>
                         <span className='text-slate-400 text-xs'>{description}</span>
                         {modal && (
-                            <p className='text-xs text-slate-400 hover:text-emerald-500 mt-1 transition-all duration-100'>Lihat detail &gt;</p>
+                            <p className='text-xs text-slate-400 hover:text-emerald-500 mt-1 transition-all duration-100 hover:cursor-pointer' onClick={modal}>Lihat detail &gt;</p>
                         )}
                     </div>
                 </div>

@@ -13,7 +13,7 @@ export interface IStatsDashboard {
   totalKeterlambatan: number;
   totalDenda: number;
   isError: boolean;
-  dataPeminjaman: IPeminjaman;
+  dataPeminjaman: IPeminjaman[];
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -41,7 +41,7 @@ export const getStatsDashboard = async (user: any) => {
         console.log(error)
     }
 
-    const bukuDipinjam = filteredDataPeminjaman(dataPeminjaman, "dipinjam");
+    const bukuDipinjam = dataPeminjaman.filter((item: IPeminjaman) => item.status === "dipinjam" || item.status === "pending_pengembalian") ;
 
     const totalBukuDipinjam = bukuDipinjam.reduce((total: any, peminjaman: any) => {
         const jumlahPerPeminjaman = peminjaman.detail_peminjaman.reduce(
@@ -65,7 +65,7 @@ export const getStatsDashboard = async (user: any) => {
 
     const totalBukuPerJudul = dataBuku.length;
 
-    const pengembalianTerlambat = dataPeminjaman.filter((data: IPeminjaman) => data.status === "terlambat");
+    const pengembalianTerlambat = filteredDataPeminjaman(dataPeminjaman, "terlambat");
 
     const totalDenda = pengembalianTerlambat.reduce((total: any, item: IPeminjaman) => {
         return total + (item.pengembalian?.denda || 0)

@@ -1,5 +1,4 @@
-import { ReactQueryProvider } from '@/components/ReactQueryProvider'
-import React from 'react'
+import { ReactQueryProvider } from '@/components/provider/ReactQueryProvider'
 import Login from './Login'
 
 const Page = () => {
