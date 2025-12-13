@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface Alamat {
     no_rumah: string;
     nama_jalan: string;
@@ -44,12 +45,12 @@ export interface IPengembalian {
 }
 
 export interface IBuku {
-    _id: string;
+    _id?: string;
     judul_buku: string;
     genre_buku: string;
     tahun_terbit: number;
     penulis: string;
     penerbit: string;
     stok: number;
-    foto: string;
+    foto: any;
 }

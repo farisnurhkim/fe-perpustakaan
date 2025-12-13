@@ -95,7 +95,7 @@ const Login = () => {
                                     />
                                 </div>
 
-                                <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white" style={{ width: '100%', backgroundColor: '#f97316', color: 'white', padding: '0.625rem 1rem', fontSize: '1rem', fontWeight: '600', borderRadius: '0.5rem' }}>
+                                <Button type="submit" disabled={isPending} className="w-full bg-orange-600 hover:bg-orange-700 text-white" style={{ width: '100%', backgroundColor: '#f97316', color: 'white', padding: '0.625rem 1rem', fontSize: '1rem', fontWeight: '600', borderRadius: '0.5rem' }}>
                                     {isPending && (
                                         <Loader className="w-4 h-4 mr-2 animate-spin" />
                                     )}

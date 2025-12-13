@@ -21,7 +21,6 @@ type LoginInput = z.infer<typeof LoginSchema>;
 const useLogin = () => {
     const router = useRouter();
     const [visiblePassword, setVisiblePassword] = useState(false);
-    const callbackUrl: string = "/";
 
     const form = useForm<LoginInput>({
         resolver: zodResolver(LoginSchema),
@@ -46,7 +45,6 @@ const useLogin = () => {
             throw new Error(result.error); 
         }
         
-        // Jika sukses, result.url akan ada
         return result; 
     }
 

@@ -2,7 +2,7 @@
 import { create } from 'zustand'
 import { IPeminjaman } from "@/types/model";
 
-type ModalType = "bukuDipinjam" | "peminjamanPending" | "pengembalianPending" | "keterlambatan";
+type ModalType = "bukuDipinjam" | "peminjamanPending" | "pengembalianPending" | "keterlambatan" | "createBuku" | "editBuku" | "confirmHapus";
 
 interface ModalData {
     peminjaman?: IPeminjaman[] | any;
