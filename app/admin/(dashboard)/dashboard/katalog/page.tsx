@@ -1,8 +1,11 @@
+import { ReactQueryProvider } from "@/components/provider/ReactQueryProvider"
 import KatalogAdmin from "./KatalogAdmin"
 
 const Page = () => {
   return (
-    <KatalogAdmin/>
+    <ReactQueryProvider>
+      <KatalogAdmin />
+    </ReactQueryProvider>
   )
 }
 

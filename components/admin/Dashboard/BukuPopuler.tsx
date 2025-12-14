@@ -14,7 +14,7 @@ export default function BukuPopuler({ data }: BukuPopulerProps) {
 
     data.forEach((transaksi) => {
       transaksi.detail_peminjaman.forEach((item) => {
-        const idBuku = item.buku._id;
+        const idBuku = item.buku._id as unknown as string;
         const currentData = bookMap.get(idBuku);
 
         if (currentData) {
