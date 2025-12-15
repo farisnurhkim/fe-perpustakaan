@@ -1,10 +1,14 @@
 import { ReactQueryProvider } from "@/components/provider/ReactQueryProvider"
 import KatalogAdmin from "./KatalogAdmin"
+import getStatsBooks from "@/lib/getStatsBooks";
 
-const Page = () => {
+export const dynamic = "force-dynamic";
+
+const Page = async() => {
+  const statsBuku = await getStatsBooks();
   return (
     <ReactQueryProvider>
-      <KatalogAdmin />
+      <KatalogAdmin stats={statsBuku} />
     </ReactQueryProvider>
   )
 }

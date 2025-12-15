@@ -22,7 +22,7 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { useRef, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import bukuService from '@/services/buku.service';
@@ -44,6 +44,7 @@ const ModalCreateBuku = () => {
     const { isOpen, onClose, modalType } = useModal();
     const isOpenModal = isOpen && modalType === "createBuku";
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     // State untuk preview gambar
     const [preview, setPreview] = useState<string | null>(null);
@@ -161,8 +162,12 @@ const ModalCreateBuku = () => {
             toast.error(message)
         },
         onSuccess(result) {
-            console.log(result)
             toast.success(result.data.message);
+            queryClient.invalidateQueries({
+                queryKey: ["listBuku"],
+                exact: false
+            });
+          
             router.refresh();
             handleClose();
         },
