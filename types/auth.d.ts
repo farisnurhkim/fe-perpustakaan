@@ -16,6 +16,7 @@ interface UserExtended extends User {
     accessToken?: string;
     status_user?: string;
     nama?: string;
+    _id?: string;
 }
 
 interface SessionExtended extends Session {

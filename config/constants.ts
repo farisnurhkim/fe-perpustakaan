@@ -9,7 +9,7 @@ export type NavigationLink = {
 export const navigationLinkMember: NavigationLink[] = [
     {
         name: "Katalog",
-        url: "/katalog",
+        url: "/",
         icon: BookOpen
     },
     {
@@ -47,3 +47,8 @@ export const navigationLinkAdmin: NavigationLink[] = [
         icon: BookOpen
     }
 ]
+
+export const categories = [
+    "Semua Kategori", "Fiksi", "Non-Fiksi", "Sains", "Pengembangan Diri",
+    "Keuangan", "Teknologi", "Sejarah", "Fantasi",
+];

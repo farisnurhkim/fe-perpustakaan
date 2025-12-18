@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from 'zustand'
-import { IPeminjaman } from "@/types/model";
+import { IBuku } from "@/types/model";
 
-type ModalType = "bukuDipinjam" | "peminjamanPending" | "pengembalianPending" | "keterlambatan" | "createBuku" | "editBuku" | "confirmHapus";
+type ModalType = "bukuDipinjam" | "peminjamanPending" | "pengembalianPending" | "keterlambatan" | "createBuku" | "editBuku" | "deleteBuku" | "successPeminjaman" | "konfirmasiPeminjaman" | "konfirmasiPengembalian" | "strukPeminjaman" | "strukPengembalian";
 
 interface ModalData {
-    peminjaman?: IPeminjaman[] | any;
+    peminjaman?: any;
+    buku?: IBuku | any;
+    peminjamanUser?: any;
 }
 
 interface Modal {

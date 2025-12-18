@@ -8,16 +8,12 @@ import { BookOpen } from 'lucide-react';
 
 
 const ModalStatsDipinjam = () => {
-    const { data, isOpen, onClose, modalType } = useModal();
-    const isOpenModal = isOpen && modalType === "bukuDipinjam"
+    const { data, isOpen, modalType, onClose } = useModal();
 
-    if (!isOpenModal) {
-        return null;
-    }
+    const isOpenModal = isOpen && modalType === "bukuDipinjam";
+    if (!isOpenModal || !data || !data.peminjaman) return null;
 
-    const { peminjaman } = data;
-
-
+    const peminjaman = data.peminjaman;
 
     return (
         <Dialog open={isOpenModal} onOpenChange={onClose}>

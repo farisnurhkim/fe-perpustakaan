@@ -1,8 +1,13 @@
+import { ReactQueryProvider } from '@/components/provider/ReactQueryProvider'
+import React from 'react'
+import PinjamView from './PinjamView'
 
-const page = () => {
+const Page = () => {
   return (
-    <div>page</div>
+    <ReactQueryProvider>
+      <PinjamView/>
+    </ReactQueryProvider>
   )
 }
 
-export default page
+export default Page

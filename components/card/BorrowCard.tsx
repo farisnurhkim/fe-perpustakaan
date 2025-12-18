@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Check, Clock, CornerDownLeft } from 'lucide-react';
 import Image from 'next/image';
 
-const BorrowCard = ({ item }: { item: IPeminjaman }) => {
+const BorrowCard = ({ item }: { item: any }) => {
     const totalStock = (data: any) => {
         return data.reduce((total: number, item: any) => {
             return total + item.jumlah
@@ -76,7 +76,7 @@ const BorrowCard = ({ item }: { item: IPeminjaman }) => {
                     </h2>
                 )}
             </div>
-            {item.detail_peminjaman.map((item, index) => (
+            {item.detail_peminjaman.map((item: any, index: number) => (
                 <div key={index} className='w-ful px-4 py-2 mb-3 border border-slate-500 bg-slate-800 rounded-md flex justify-between items-center'>
                     <div className='flex items-center gap-2'>
                         <div className='w-10 h-14 rounded-md overflow-hidden'>

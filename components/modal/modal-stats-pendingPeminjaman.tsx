@@ -11,9 +11,10 @@ const ModalStatsPendingPeminjaman = () => {
     const { data, isOpen, onClose, modalType } = useModal();
     const isOpenModal = isOpen && modalType === "peminjamanPending";
 
-    if (!data || !isOpenModal) {
+    if (!isOpenModal || !data || !data.peminjaman) {
         return null;
     }
+
     const peminjaman = data?.peminjaman ?? [];
 
 

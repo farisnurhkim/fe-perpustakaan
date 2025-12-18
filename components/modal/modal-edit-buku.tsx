@@ -11,7 +11,6 @@ import {
     User,
     Building2,
     Calendar,
-    Layers,
     Bookmark,
     X,
     Loader
@@ -21,7 +20,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -35,20 +34,31 @@ const formSchema = z.object({
     penerbit: z.string().min(1, "Nama penerbit wajib diisi"),
     genre_buku: z.string().min(1, "Genre wajib dipilih"),
     tahun_terbit: z.coerce.number().min(1000, "Tahun tidak valid").max(new Date().getFullYear(), "Tahun tidak boleh lebih dari sekarang"),
-    stok: z.coerce.number().min(1, "Stok minimal 1"),
     foto: z.any(),
 })
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const ModalCreateBuku = () => {
-    const { isOpen, onClose, modalType } = useModal();
-    const isOpenModal = isOpen && modalType === "createBuku";
+const ModalEditBuku = () => {
+    const { isOpen, onClose, modalType, data } = useModal();
+    const isOpenModal = isOpen && modalType === "editBuku";
     const router = useRouter();
     const queryClient = useQueryClient();
 
-    // State untuk preview gambar
+    const buku = data?.buku;
     const [preview, setPreview] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (buku) {
+            form.setValue("judul_buku", buku.judul_buku);
+            form.setValue("genre_buku", buku.genre_buku);
+            form.setValue("penerbit", buku.penerbit);
+            form.setValue("tahun_terbit", buku.tahun_terbit);
+            form.setValue("penulis", buku.penulis);
+            setPreview(buku.foto);
+        }
+    }, [buku]);
+
     // Ref untuk input file hidden
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,7 +70,6 @@ const ModalCreateBuku = () => {
             penerbit: "",
             genre_buku: "",
             tahun_terbit: 2025,
-            stok: 1,
         },
     })
 
@@ -126,20 +135,19 @@ const ModalCreateBuku = () => {
     };
 
     // Hit API --
-    const processCreateBuku = async (formData: FormSchema) => {
-        if (!formData.foto || !(formData.foto instanceof File)) {
-            throw new Error("Cover buku wajib diupload!");
-        }
+    const processUbahBuku = async (formData: FormSchema) => {
+        let uploadedUrl = formData.foto; // Default pakai URL lama
 
-        let uploadedUrl = "";
-        try {
-            const uploadRes = await uploadService.upload(formData.foto);
-            uploadedUrl = uploadRes.data.data || uploadRes.data?.data?.fileUrl;
+        if (formData.foto instanceof File) {
+            try {
+                const uploadRes = await uploadService.upload(formData.foto);
+                uploadedUrl = uploadRes.data.data || uploadRes.data?.data?.fileUrl;
 
-            if (!uploadedUrl) throw new Error("Gagal mendapatkan URL gambar");
-        } catch (error: any) {
-            console.error("Upload Error:", error);
-            throw new Error(error.response?.data?.message || "Gagal upload gambar ke server");
+                if (!uploadedUrl) throw new Error("Gagal mendapatkan URL gambar");
+            } catch (error: any) {
+                console.error("Upload Error:", error);
+                throw new Error(error.response?.data?.message || "Gagal upload gambar ke server");
+            }
         }
 
         const payloadBuku = {
@@ -147,11 +155,21 @@ const ModalCreateBuku = () => {
             foto: uploadedUrl
         };
 
-        return await bukuService.buatBuku(payloadBuku);
+        const result = await bukuService.ubahBuku(payloadBuku, buku._id);
+        if (formData.foto instanceof File && buku.foto) {
+
+            try {
+                await uploadService.delete(buku.foto);
+            } catch (err) {
+                console.warn("Gagal menghapus file lama (tidak kritikal):", err);
+            }
+        }
+
+        return result;
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: processCreateBuku,
+        mutationFn: processUbahBuku,
         onError(error: any) {
             const message = error?.response?.data?.message || error.message || "Terjadi Kesalahan";
 
@@ -188,10 +206,10 @@ const ModalCreateBuku = () => {
             <DialogContent className='bg-slate-900 text-slate-100 border-slate-800 max-w-lg sm:max-w-2xl shadow-2xl max-h-[90vh] scroll-dark overflow-y-auto'>
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-                        Tambah Buku Baru
+                        Edit Buku
                     </DialogTitle>
                     <DialogDescription className="text-slate-400">
-                        Masukkan informasi buku yang akan ditambahkan ke koleksi perpustakaan
+                        Perbarui informasi buku di koleksi perpustakaan
                     </DialogDescription>
                 </DialogHeader>
 
@@ -256,6 +274,7 @@ const ModalCreateBuku = () => {
                                     </>
                                 )}
 
+                                {/* Input File Hidden */}
                                 <Input
                                     ref={inputRef}
                                     type="file"
@@ -331,7 +350,7 @@ const ModalCreateBuku = () => {
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
                                 name="genre_buku"
@@ -341,7 +360,6 @@ const ModalCreateBuku = () => {
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <div className="relative">
-                                                    {/* Hack: Icon absolute di atas SelectTrigger */}
                                                     <Bookmark className="absolute left-3 top-3 h-3.5 w-3.5 text-slate-500 z-10 pointer-events-none" />
                                                     <SelectTrigger disabled={isPending} className=" w-full pl-9 bg-slate-800 border-slate-800 focus-visible:ring-emerald-600/50 focus-visible:border-emerald-5000">
                                                         <SelectValue placeholder="Genre" />
@@ -388,29 +406,7 @@ const ModalCreateBuku = () => {
                                 )}
                             />
 
-                            {/* Stok */}
-                            <FormField
-                                control={form.control}
-                                name="stok"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="md:invisible text-xs uppercase font-bold text-slate-500 tracking-wider">Stok</FormLabel>
-                                        <FormControl>
-                                            <div className="relative">
-                                                <Layers className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                                                <Input
-                                                    disabled={isPending}
-                                                    type="number"
-                                                    placeholder="Stok"
-                                                    className="pl-9 bg-slate-800 border-slate-800 focus-visible:ring-emerald-600/50 focus-visible:border-emerald-500 h-10"
-                                                    {...field}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+
                         </div>
 
                         {/* FOOTER ACTIONS */}
@@ -444,4 +440,4 @@ const ModalCreateBuku = () => {
     )
 }
 
-export default ModalCreateBuku
+export default ModalEditBuku

@@ -7,6 +7,7 @@ import BookStatCard from "@/components/card/BookStatCard"
 import PageHeader from "@/components/Header/PageHeader"
 import SearchFilter from "@/components/SearchFilter"
 import { Button } from "@/components/ui/button"
+import { categories } from "@/config/constants"
 import { useModal } from "@/hooks/useModal"
 import { StatsBuku } from "@/lib/getStatsBooks"
 import bukuService from "@/services/buku.service"
@@ -14,12 +15,8 @@ import { IBuku } from "@/types/model"
 import { useQuery } from "@tanstack/react-query"
 import { BookOpen, Box, PackageX, Plus } from "lucide-react"
 import { useSearchParams } from "next/navigation"
-import { useEffect } from "react"
 
-const categories = [
-    "Semua Kategori", "Fiksi", "Non-Fiksi", "Sains", "Pengembangan Diri",
-    "Keuangan", "Teknologi", "Sejarah", "Fantasi",
-];
+
 
 const KatalogAdmin = ({ stats }: { stats: StatsBuku }) => {
     const { stockHabis, totalBuku, totalStock } = stats;
@@ -37,17 +34,12 @@ const KatalogAdmin = ({ stats }: { stats: StatsBuku }) => {
         return result.data.data;
     }
 
-    const { data, isLoading, refetch } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["listBuku", currentCategory, currentSearch],
         queryFn: listBukuServices,
         refetchInterval: 0,
     });
 
-    useEffect(() => {
-        if (data) {
-            console.log("Data API Baru Masuk:", data);
-        }
-    }, [data]);
 
     const statsBuku = [
         {
@@ -96,14 +88,15 @@ const KatalogAdmin = ({ stats }: { stats: StatsBuku }) => {
                         <p className="text-slate-500">Tidak ada data</p>
                     </div>
                 )}
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 pb-20">
+                <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pb-20">
                     {isLoading && [...Array(8)].map((_, index) => (
-                        <BookCardSkeleton key={index} />
+                        <BookCardSkeleton type="admin" key={index} />
                     ))}
                     {data && !isLoading && data.map((book: IBuku) => (
                         <BookCard
                             key={book._id}
-                            {...book}
+                            book={book}
+                            type="admin"
                         />
                     ))}
                 </div>

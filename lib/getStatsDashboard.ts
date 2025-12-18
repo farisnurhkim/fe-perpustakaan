@@ -25,13 +25,24 @@ export const filteredDataPeminjaman = (data: IPeminjaman[], status: StatusPeminj
 
 
 export const getStatsDashboard = async (user: any) => {
-    let dataPeminjaman;
-    let dataBuku;
+    let dataPeminjaman: IPeminjaman[] = [];
+    let dataBuku: IBuku[] = [];
     let isError = false;
 
     try {
         const resultPeminjaman = await peminjamanService.daftarSemuaPeminjaman((user as any).accessToken);
-        dataPeminjaman = resultPeminjaman?.data?.data || [];
+        const rawDataPeminjaman = resultPeminjaman?.data?.data || [];
+        dataPeminjaman = rawDataPeminjaman.map((peminjaman: any) => {
+            
+             if(!peminjaman.detail_peminjaman) return peminjaman;
+
+             const validDetails = peminjaman.detail_peminjaman.filter((detail: any) => detail.buku && detail.buku._id);
+
+             return {
+                 ...peminjaman,
+                 detail_peminjaman: validDetails
+             };
+        });
 
         const resultBuku = await bukuService.listBuku();
         dataBuku = resultBuku?.data?.data || [];

@@ -11,7 +11,7 @@ const ModalStatsDenda = () => {
     const { data, isOpen, onClose, modalType } = useModal();
     const isOpenModal = isOpen && modalType === "keterlambatan";
 
-    if (!data || !isOpenModal) {
+    if (!data || !data.peminjaman || !isOpenModal) {
         return null;
     }
     const peminjaman = data?.peminjaman ?? [];

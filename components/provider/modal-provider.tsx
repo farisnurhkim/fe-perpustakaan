@@ -8,6 +8,11 @@ import ModalStatsPendingPengembalian from "../modal/modal-stats-pendingPengembal
 import ModalStatsDenda from "../modal/modal-stats-denda";
 import ModalCreateBuku from "../modal/modal-create-buku";
 import { ReactQueryProvider } from "./ReactQueryProvider";
+import ModalDeleteBuku from "../modal/modal-delete-buku";
+import ModalEditBuku from "../modal/modal-edit-buku";
+import ModalSuccessPeminjaman from "../modal/modal-success-peminjaman";
+import ModalKonfirmasiPeminjaman from "../modal/modal-konfirmasi-peminjaman";
+import ModalStrukPeminjaman from "../modal/modal-struk-peminjaman";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -27,6 +32,11 @@ const ModalProvider = () => {
       <ModalStatsPendingPengembalian />
       <ModalStatsDenda />
       <ModalCreateBuku />
+      <ModalDeleteBuku/>
+      <ModalEditBuku/>
+      <ModalSuccessPeminjaman/>
+      <ModalKonfirmasiPeminjaman/>
+      <ModalStrukPeminjaman/>
     </ReactQueryProvider>
   )
 }
