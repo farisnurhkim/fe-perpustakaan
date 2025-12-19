@@ -12,13 +12,14 @@ import peminjamanService from '@/services/peminjaman.service';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic'
 import type { DetectedBarcode } from "react-barcode-scanner";
+import pengembalianService, { PayloadPengembalian } from '@/services/pengembalian.service';
 
 const BarcodeScanner = dynamic(() => {
     import('react-barcode-scanner/polyfill')
     return import('react-barcode-scanner').then(mod => mod.BarcodeScanner)
 }, { ssr: false })
 
-const ModalScanPeminjaman = () => {
+const ModalScanPengembalian = () => {
     const { isOpen, onClose, modalType, onOpen } = useModal();
     const isOpenModal = isOpen && modalType === "scanPeminjaman";
 
@@ -36,7 +37,17 @@ const ModalScanPeminjaman = () => {
     }, [isOpenModal]);
 
     const onServiceKonfirmasi = async (barcode: string) => {
-        const result = await peminjamanService.konfirmasiPeminjaman(barcode)
+        const today = new Date().toISOString();
+        const resultHitungDenda = await peminjamanService.hitungDenda(barcode);
+        const totalDenda = resultHitungDenda.data.data ?? 0;
+        
+        const payload: PayloadPengembalian = {
+            denda: totalDenda,
+            tgl_kembali: today,
+            keterangan: totalDenda > 0 ? "Buku dikembalikan terlambat" : "Dikembalikan tepat waktu"
+        }
+
+        const result = await pengembalianService.konfirmasiPengembalian(barcode, payload)
         return result;
     }
 
@@ -52,7 +63,7 @@ const ModalScanPeminjaman = () => {
         onSuccess(result) {
             toast.success(result.data.message);
             queryClient.invalidateQueries({
-                queryKey: ["requestPeminjaman"],
+                queryKey: ["requestPengembalian"],
                 exact: false
             });
             queryClient.invalidateQueries({
@@ -61,10 +72,11 @@ const ModalScanPeminjaman = () => {
             });
             const data = result.data.data;
             onClose();
-            onOpen("strukPeminjaman", { peminjaman: data })
+            onOpen("strukPengembalian", { peminjaman: data })
             router.refresh();
         },
     });
+
 
     const handleManualRefresh = () => {
         setErrorMessage("");
@@ -79,9 +91,9 @@ const ModalScanPeminjaman = () => {
         <Dialog open={isOpenModal} onOpenChange={() => onClose()}>
             <DialogContent className='bg-slate-900 text-white border border-slate-700 max-h-[90vh] scroll-dark overflow-y-auto'>
                 <DialogHeader>
-                    <DialogTitle className='text-start'>Konfirmasi Peminjaman</DialogTitle>
+                    <DialogTitle className='text-start'>Konfirmasi Pengembalian</DialogTitle>
                     <DialogDescription className='text-start'>
-                        Lakukan pemindaian barcode sebagai konfirmasi peminjaman.
+                        Lakukan pemindaian barcode sebagai konfirmasi pengembalian.
                         Sistem akan memproses data secara otomatis.
                     </DialogDescription>
                 </DialogHeader>
@@ -97,6 +109,7 @@ const ModalScanPeminjaman = () => {
                                 if (barcodes.length > 0) {
                                     const code = barcodes[0].rawValue;
                                     setScanStatus('processing');
+
                                     mutate(code);
                                 }
                             }}
@@ -137,4 +150,4 @@ const ModalScanPeminjaman = () => {
     )
 }
 
-export default ModalScanPeminjaman
+export default ModalScanPengembalian

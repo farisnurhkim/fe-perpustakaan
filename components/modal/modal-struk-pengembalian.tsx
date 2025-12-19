@@ -11,9 +11,9 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 import jsPDF from 'jspdf';
 import { toPng } from 'html-to-image';
 
-const ModalStrukPeminjaman = () => {
+const ModalStrukPengembalian = () => {
     const { data, isOpen, onClose, modalType } = useModal();
-    const isOpenModal = isOpen && modalType === "strukPeminjaman";
+    const isOpenModal = isOpen && modalType === "strukPengembalian";
 
     const contentRef = useRef<HTMLDivElement>(null);
     const [isGenerating, setIsGenerating] = useState(false);
@@ -38,16 +38,16 @@ const ModalStrukPeminjaman = () => {
         setIsGenerating(true);
 
         try {
-           
+
             const imgData = await toPng(element, {
                 cacheBust: true,
                 pixelRatio: 2,
                 backgroundColor: '#ffffff',
-                height: element.scrollHeight, 
+                height: element.scrollHeight,
                 style: {
-                    maxHeight: 'none',      
-                    height: 'auto',         
-                    overflow: 'visible'    
+                    maxHeight: 'none',
+                    height: 'auto',
+                    overflow: 'visible'
                 }
             });
 
@@ -81,6 +81,14 @@ const ModalStrukPeminjaman = () => {
         } finally {
             setIsGenerating(false);
         }
+    };
+
+    const formatRupiah = (value: number) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+        }).format(value);
     };
 
     return (
@@ -123,7 +131,7 @@ const ModalStrukPeminjaman = () => {
 
                     <DashedSeparator />
 
-                    <h4 className="text-center font-bold my-3 text-black">BUKTI PEMINJAMAN</h4>
+                    <h4 className="text-center font-bold my-3 text-black">BUKTI PENGEMBALIAN</h4>
 
                     <div className='border border-black' />
 
@@ -197,6 +205,14 @@ const ModalStrukPeminjaman = () => {
                             <span className="text-slate-600">Batas Kembali</span>
                             <span className="font-bold text-black">{format(new Date(peminjaman.batas_pinjam), "dd/MM/yyyy")}</span>
                         </div>
+                        <div className="flex justify-between">
+                            <span className="text-slate-600">Status</span>
+                            <span className="font-bold text-black">{peminjaman.status === "dikembalikan" ? "Tepat Waktu" : peminjaman.status}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-slate-600">Total Denda</span>
+                            <span className="font-bold text-black">{formatRupiah(peminjaman.pengembalian?.denda ?? 0)}</span>
+                        </div>
                     </div>
 
                     <DashedSeparator />
@@ -226,7 +242,7 @@ const ModalStrukPeminjaman = () => {
     )
 }
 
-export default ModalStrukPeminjaman;
+export default ModalStrukPengembalian;
 
 function DashedSeparator() {
     return <div className="border-b-2 border-dashed border-slate-300 w-full my-2" />;

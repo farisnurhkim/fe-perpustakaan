@@ -12,9 +12,16 @@ export interface PeminjamanPayload {
   detail_peminjaman: DetailPeminjaman[]
 }
 
+export interface PayloadPengembalian {
+  tgl_kembali: string;   // format: YYYY-MM-DD
+  keterangan: string;
+  denda: number;
+}
+
 
 const pengembalianService = {
     prosesPengembalian: (barcode: string) => instance.patch(`/pengembalian/proses/${barcode}`),
+    konfirmasiPengembalian: (barcode: string, payload: PayloadPengembalian) => instance.post(`/pengembalian/konfirmasi/${barcode}`, payload),
 }
 
 export default pengembalianService;

@@ -14,6 +14,9 @@ import ModalSuccessPeminjaman from "../modal/modal-success-peminjaman";
 import ModalKonfirmasiPeminjaman from "../modal/modal-konfirmasi-peminjaman";
 import ModalStrukPeminjaman from "../modal/modal-struk-peminjaman";
 import ModalScanPeminjaman from "../modal/modal-scan-peminjaman";
+import ModalKonfirmasiPengembalian from "../modal/modal-konfirmasi-pengembalian";
+import ModalStrukPengembalian from "../modal/modal-struk-pengembalian";
+import ModalScanPengembalian from "../modal/modal-scan-pengembalian";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -39,6 +42,9 @@ const ModalProvider = () => {
       <ModalKonfirmasiPeminjaman/>
       <ModalStrukPeminjaman/>
       <ModalScanPeminjaman/>
+      <ModalKonfirmasiPengembalian/>
+      <ModalStrukPengembalian/>
+      <ModalScanPengembalian/>
     </ReactQueryProvider>
   )
 }

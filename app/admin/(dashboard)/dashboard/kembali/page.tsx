@@ -1,8 +1,12 @@
+import { ReactQueryProvider } from '@/components/provider/ReactQueryProvider'
+import KembaliView from './KembaliView'
 
-const page = () => {
+const Page = () => {
   return (
-    <div>page</div>
+    <ReactQueryProvider>
+      <KembaliView/>
+    </ReactQueryProvider>
   )
 }
 
-export default page
+export default Page

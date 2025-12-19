@@ -22,7 +22,8 @@ const peminjamanService = {
     buatPeminjaman: (payload: PeminjamanPayload) => instance.post("/peminjaman/buat", payload),
     daftarPeminjamanUser: (userId: string) => instance.get(`/peminjaman/user/${userId}`),
     cariPeminjaman: (barcode: string) => instance.get(`/peminjaman/cari/${barcode}`),
-    konfirmasiPeminjaman: (barcode: string) => instance.patch(`/peminjaman/konfirmasi/${barcode}`)
+    konfirmasiPeminjaman: (barcode: string) => instance.patch(`/peminjaman/konfirmasi/${barcode}`),
+    hitungDenda: (barcode: string) => instance.get(`/peminjaman/hitung-denda/${barcode}`),
 }
 
 export default peminjamanService;

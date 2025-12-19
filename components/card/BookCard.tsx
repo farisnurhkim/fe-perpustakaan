@@ -18,7 +18,7 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
   const [jumlahStok, setJumlahStok] = useState(stok);
   const router = useRouter();
 
-  const { addToCart } = useCart()
+  const { addToCart, items } = useCart()
 
 
   const serviceUpdateStok = async (action: "tambah" | "kurangi") => {
@@ -110,6 +110,12 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
             {!isAddToCart && (
               <Button onClick={() => {
                 if (book.stok === 0) {
+                  toast.success("Stock buku habis")
+                  return;
+                }
+                const booksItem = items.find((data) => data.buku._id === book._id);
+                
+                if (booksItem && booksItem?.qty >= book.stok) {
                   toast.success("Stock buku habis")
                   return;
                 }

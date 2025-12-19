@@ -13,7 +13,6 @@ import { id } from 'date-fns/locale';
 const ModalSuccessPeminjaman = () => {
     const { data, isOpen, onClose, modalType } = useModal();
     const isOpenModal = isOpen && modalType === "successPeminjaman";
-    console.log(data)
     if (!isOpenModal || !data.peminjamanUser || !data) {
         return null;
     }
