@@ -106,10 +106,10 @@ const ModalScanPeminjaman = () => {
                     )}
 
                     {scanStatus === 'error' && (
-                        <div className='flex flex-col items-center justify-center text-center p-4 animate-in zoom-in duration-300'>
-                            <XCircle className="w-16 h-16 text-red-500 mb-3" />
+                        <div className='flex flex-col items-center justify-center text-center sm:p-4 p-2 animate-in zoom-in duration-300'>
+                            <XCircle className="w-14 h-14 md:w-14 md:h-14 text-red-500 mb-3" />
                             <h3 className="text-xl font-bold text-red-400 mb-1">Gagal Validasi</h3>
-                            <p className="text-sm text-slate-300 mb-6 px-4">{errorMessage}</p>
+                            <p className="text-sm text-slate-300 mb-3 px-4">{errorMessage}</p>
                             
                             <Button 
                                 onClick={handleManualRefresh} 

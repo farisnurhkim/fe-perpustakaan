@@ -157,7 +157,7 @@ export const RiwayatPeminjamanCard = ({ item }: { item: IPeminjaman }) => {
                 <div className={cn(
                     (item.status !== "dikembalikan" && item.status !== "terlambat") && "p-4 bg-[#064e3b]/10 border-t border-emerald-900/30"
                 )}>
-                    {(item.status !== "dipinjam" && item.status !== "dikembalikan") && (
+                    {(item.status !== "dipinjam" && item.status !== "dikembalikan" && item.status !== "terlambat") && (
                         <div className="flex flex-col gap-3">
                             <div className="flex justify-between items-center">
                                 <div className="text-emerald-400/80">
