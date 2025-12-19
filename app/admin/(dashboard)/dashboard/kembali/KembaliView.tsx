@@ -61,6 +61,7 @@ const KembaliView = () => {
 
             <div className="mt-5 space-y-4">
                 <ScanBarcodeCard
+                    type="pengembalian"
                     key={searchCode}
                     onSearch={handleBarcodeSearch}
                     isLoading={isLoading || isFetching}

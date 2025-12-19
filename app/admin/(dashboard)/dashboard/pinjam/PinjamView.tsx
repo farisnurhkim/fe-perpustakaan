@@ -61,6 +61,7 @@ const PinjamView = () => {
 
             <div className="mt-5 space-y-4">
                 <ScanBarcodeCard
+                    type="peminjaman"
                     key={searchCode}
                     onSearch={handleBarcodeSearch}
                     isLoading={isLoading || isFetching}
