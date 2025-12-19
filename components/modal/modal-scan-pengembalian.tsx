@@ -39,7 +39,7 @@ const ModalScanPengembalian = () => {
     const onServiceKonfirmasi = async (barcode: string) => {
         const today = new Date().toISOString();
         const resultHitungDenda = await peminjamanService.hitungDenda(barcode);
-        const totalDenda = resultHitungDenda.data.data ?? 0;
+        const totalDenda = resultHitungDenda.data.data.totalDenda ?? 0;
         
         const payload: PayloadPengembalian = {
             denda: totalDenda,
