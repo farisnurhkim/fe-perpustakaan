@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useModal } from '@/hooks/useModal'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
-import { Loader, Loader2 } from 'lucide-react';
+import { Loader2, RefreshCcw, ScanLine, XCircle } from 'lucide-react'; // Tambah icon XCircle
 import { Button } from '../ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import peminjamanService from '@/services/peminjaman.service';
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; 
 import dynamic from 'next/dynamic'
 import type { DetectedBarcode } from "react-barcode-scanner";
 
@@ -17,26 +18,36 @@ const BarcodeScanner = dynamic(() => {
     return import('react-barcode-scanner').then(mod => mod.BarcodeScanner)
 }, { ssr: false })
 
-
 const ModalScanPeminjaman = () => {
     const { isOpen, onClose, modalType, onOpen } = useModal();
     const isOpenModal = isOpen && modalType === "scanPeminjaman";
-    const [locked, setLocked] = useState(false);
+    
+    const [scanStatus, setScanStatus] = useState<'idle' | 'processing' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState("");
 
     const queryClient = useQueryClient();
     const router = useRouter();
+
+    useEffect(() => {
+        if (isOpenModal) {
+            setScanStatus('idle');
+            setErrorMessage("");
+        }
+    }, [isOpenModal]);
 
     const deleteBukuService = async (barcode: string) => {
         const result = await peminjamanService.konfirmasiPeminjaman(barcode)
         return result;
     }
 
-    const { isPending, mutate } = useMutation({
+    const { mutate } = useMutation({
         mutationFn: deleteBukuService,
         onError(error: any) {
             const message = error?.response?.data?.message || error.message || "Terjadi Kesalahan";
+            setScanStatus('error');
+            setErrorMessage(message);
+            
             toast.error(message);
-            setLocked(false)
         },
         onSuccess(result) {
             toast.success(result.data.message);
@@ -47,11 +58,14 @@ const ModalScanPeminjaman = () => {
             const data = result.data.data;
             onClose();
             onOpen("strukPeminjaman", {peminjaman: data})
-            setLocked(false)
             router.refresh();
         },
     });
 
+    const handleManualRefresh = () => {
+        setErrorMessage("");
+        setScanStatus('idle'); 
+    }
 
     if (!isOpenModal) {
         return null;
@@ -59,37 +73,59 @@ const ModalScanPeminjaman = () => {
 
     return (
         <Dialog open={isOpenModal} onOpenChange={() => onClose()}>
-            <DialogContent className='bg-slate-900 text-white border border-slate-700 max-h-[90vh] w-xl scroll-dark overflow-y-auto'>
+            <DialogContent className='bg-slate-900 text-white border border-slate-700 max-h-[90vh] scroll-dark overflow-y-auto'>
                 <DialogHeader>
                     <DialogTitle className='text-start'>Konfirmasi Peminjaman</DialogTitle>
                     <DialogDescription className='text-start'>
-                        Arahkan kamera ke barcode buku untuk mengonfirmasi peminjaman.
-                        Pastikan barcode terlihat jelas agar proses berjalan lancar.
+                        Arahkan kamera ke barcode buku.
                     </DialogDescription>
                 </DialogHeader>
-                <div className='relative w-full h-[450px] sm:h-[500px] rounded-lg overflow-hidden'>
-                    {/* {isPending && (
-                        <div className='absolute w-full h-full flex items-center justify-center z-50'>
-                            <Loader2 className="w-8 h-8 animate-spin" />
+                
+                <div className='relative w-full aspect-video rounded-lg overflow-hidden bg-black border border-slate-800 flex items-center justify-center'>
+                    
+                    {scanStatus === 'idle' && (
+                        <BarcodeScanner
+                            options={{
+                                formats: ["qr_code", "code_128", "ean_13"],
+                            }}
+                            onCapture={(barcodes: DetectedBarcode[]) => {
+                                if (barcodes.length > 0) {
+                                    const code = barcodes[0].rawValue;
+                                    setScanStatus('processing');
+                                    mutate(code);
+                                }
+                            }}
+                        />
+                    )}
+
+                    {scanStatus === 'processing' && (
+                        <div className='flex flex-col items-center justify-center animate-in fade-in'>
+                            <Loader2 className="w-12 h-12 animate-spin text-blue-500 mb-2" />
+                            <p className="text-lg font-semibold">Memverifikasi...</p>
                         </div>
-                    )} */}
-                    <BarcodeScanner
-                        options={{
-                            formats: ["qr_code", "code_128", "code_39", "code_93", "codabar", "ean_13", "ean_8", "itf", "upc_a", "upc_e"]
-                        }}
-                        onCapture={(barcodes: DetectedBarcode[]) => {
-                            if (locked || !barcodes.length) return;
+                    )}
 
-                            const barcode = barcodes[0].rawValue;
-                            setLocked(true);
-
-                            console.log("AUTO SUBMIT:", barcode);
-                            mutate(barcode)
-                        }}
-                    />
+                    {scanStatus === 'error' && (
+                        <div className='flex flex-col items-center justify-center text-center p-4 animate-in zoom-in duration-300'>
+                            <XCircle className="w-16 h-16 text-red-500 mb-3" />
+                            <h3 className="text-xl font-bold text-red-400 mb-1">Gagal Validasi</h3>
+                            <p className="text-sm text-slate-300 mb-6 px-4">{errorMessage}</p>
+                            
+                            <Button 
+                                onClick={handleManualRefresh} 
+                                variant="outline" 
+                                className="border-red-500 text-red-400 hover:bg-red-950 hover:text-red-200"
+                            >
+                                <RefreshCcw className="w-4 h-4 mr-2"/> Coba Scan Lagi
+                            </Button>
+                        </div>
+                    )}
                 </div>
+
                 <DialogFooter>
-                    <Button variant={"destructive"} className='hover:bg-slate-700' type='button' onClick={() => onClose()} disabled={isPending}>Batal</Button>
+                    <Button className='hover:bg-slate-700' type='button' onClick={() => onClose()}>
+                        Batal
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
