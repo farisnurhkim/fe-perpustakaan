@@ -21,7 +21,7 @@ const BarcodeScanner = dynamic(() => {
 
 const ModalScanPengembalian = () => {
     const { isOpen, onClose, modalType, onOpen } = useModal();
-    const isOpenModal = isOpen && modalType === "scanPeminjaman";
+    const isOpenModal = isOpen && modalType === "scanPengembalian";
 
     const [scanStatus, setScanStatus] = useState<'idle' | 'processing' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState("");
