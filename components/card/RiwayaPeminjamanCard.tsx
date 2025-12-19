@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IPeminjaman, StatusPeminjaman } from "@/types/model";
 import { format, differenceInCalendarDays, isAfter } from "date-fns";
-import { BookOpen, Calendar, CheckCircle, Clock, Loader, PackageOpen, QrCode } from "lucide-react";
+import { BookOpen, Calendar, CheckCircle, Clock, Loader, PackageOpen, QrCode, Receipt } from "lucide-react";
 import { Badge } from '@/components/ui/badge';
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -172,6 +172,24 @@ export const RiwayatPeminjamanCard = ({ item }: { item: IPeminjaman }) => {
                                 className="text-emerald-400 hover:text-emerald-300 bg-white hover:bg-emerald-950/50 h-8 text-xs"
                             >
                                 <QrCode className="w-4 h-4 mr-2" /> Tampilkan Barcode
+                            </Button>
+                        </div>
+                    )}
+                    {(item.status === "dikembalikan" || item.status === "terlambat") && (
+                        <div className="flex flex-col gap-3">
+                            <div className="flex justify-between items-center">
+                                <div className="text-emerald-400/80">
+                                    <p className="font-semibold text-sm text-emerald-200">Struk Peminjaman</p>
+                                    <p className="text-xs mt-1">Lihat detail transaksi</p>
+                                </div>
+                            </div>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => onOpen("strukPengembalian", { peminjaman: item })}
+                                className="text-emerald-400 hover:text-emerald-300 bg-white hover:bg-emerald-950/50 h-8 text-xs"
+                            >
+                                <Receipt className="w-4 h-4 mr-2" /> Tampilkan Struk
                             </Button>
                         </div>
                     )}
