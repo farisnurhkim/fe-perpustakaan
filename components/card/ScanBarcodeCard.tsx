@@ -19,11 +19,13 @@ interface ScanBarcodeCardProps {
     title?: string;
     description?: string;
     className?: string;
+    type: "peminjaman" | "pengembalian";
 }
 
 export function ScanBarcodeCard({
     onSearch,
     onOpen,
+    type,
     isLoading = false,
     title = "Scan Barcode Peminjaman",
     description = "Scan atau masukkan kode barcode untuk mengkonfirmasi peminjaman",
@@ -62,7 +64,13 @@ export function ScanBarcodeCard({
                 <div className="flex w-full items-center gap-3">
                     {/* Input Wrapper dengan Icon di dalamnya */}
                     <div className="relative flex-1 group">
-                        <ScanLine onClick={() => onOpen("scanPeminjaman")} className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-emerald-400 transition-colors" />
+                        <ScanLine onClick={() => {
+                            if (type === "peminjaman") {
+                                onOpen("scanPeminjaman")
+                            } else {
+                                onOpen("scanPengembalian")
+                            }
+                        }} className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-emerald-400 transition-colors" />
                         <Input
                             type="text"
                             placeholder="Masukkan atau scan barcode..."

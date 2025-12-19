@@ -17,7 +17,7 @@ import {
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useCart } from "@/hooks/useCart"
 import peminjamanService, { PeminjamanPayload } from "@/services/peminjaman.service"
 import { useSession } from "next-auth/react"
@@ -41,7 +41,8 @@ export const CartSummary = ({ totalBooks, totalTitles }: CartSummaryProps) => {
   const { data } = useSession();
   const user = data?.user as unknown as UserExtended;
   const router = useRouter();
-  const {onOpen} = useModal();
+  const { onOpen } = useModal();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const today = new Date()
@@ -86,8 +87,12 @@ export const CartSummary = ({ totalBooks, totalTitles }: CartSummaryProps) => {
     onSuccess(result: any) {
       toast.success(result.data.message);
       router.refresh();
+      queryClient.invalidateQueries({
+        queryKey: ["listBuku"],
+        exact: false
+      });
       clear()
-      onOpen("successPeminjaman", {peminjamanUser: result.data.data})
+      onOpen("successPeminjaman", { peminjamanUser: result.data.data })
     },
   });
 

@@ -3,7 +3,7 @@
 "use client"
 import { useModal } from '@/hooks/useModal'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
-import { Loader2, RefreshCcw, ScanLine, XCircle } from 'lucide-react'; // Tambah icon XCircle
+import { Loader2, RefreshCcw, XCircle } from 'lucide-react'; // Tambah icon XCircle
 import { Button } from '../ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
