@@ -108,7 +108,13 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
               </Button>
             )}
             {!isAddToCart && (
-              <Button onClick={() => handleAddToCart(book)} className='bg-orange-600 hover:bg-orange-600/80'>
+              <Button onClick={() => {
+                if (book.stok === 0) {
+                  toast.success("Stock buku habis")
+                  return;
+                }
+                handleAddToCart(book)
+              }} className='bg-orange-600 hover:bg-orange-600/80'>
                 <ShoppingCart />
                 Tambah
               </Button>

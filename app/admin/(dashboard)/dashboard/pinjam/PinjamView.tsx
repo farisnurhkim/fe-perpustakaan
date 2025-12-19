@@ -64,6 +64,7 @@ const PinjamView = () => {
                     key={searchCode}
                     onSearch={handleBarcodeSearch}
                     isLoading={isLoading || isFetching}
+                    onOpen={onOpen}
                 />
 
                 {searchCode && (

@@ -2,9 +2,9 @@
 import { create } from 'zustand'
 import { IBuku } from "@/types/model";
 
-type ModalType = "bukuDipinjam" | "peminjamanPending" | "pengembalianPending" | "keterlambatan" | "createBuku" | "editBuku" | "deleteBuku" | "successPeminjaman" | "konfirmasiPeminjaman" | "konfirmasiPengembalian" | "strukPeminjaman" | "strukPengembalian";
+export type ModalType = "bukuDipinjam" | "peminjamanPending" | "pengembalianPending" | "keterlambatan" | "createBuku" | "editBuku" | "deleteBuku" | "successPeminjaman" | "konfirmasiPeminjaman" | "konfirmasiPengembalian" | "strukPeminjaman" | "strukPengembalian" | "scanPeminjaman" | "scanPengembalian";
 
-interface ModalData {
+export interface ModalData {
     peminjaman?: any;
     buku?: IBuku | any;
     peminjamanUser?: any;

@@ -10,22 +10,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ModalData, ModalType } from "@/hooks/useModal";
 
 interface ScanBarcodeCardProps {
-    /** Fungsi yang dijalankan saat tombol cari diklik atau enter ditekan */
     onSearch: (value: string) => void;
-    /** State loading untuk tombol (opsional) */
+    onOpen: (value: ModalType, data?: ModalData) => void;
     isLoading?: boolean;
-    /** Kustomisasi judul card (default tersedia) */
     title?: string;
-    /** Kustomisasi deskripsi card (default tersedia) */
     description?: string;
-    /** Kelas tambahan untuk styling container */
     className?: string;
 }
 
 export function ScanBarcodeCard({
     onSearch,
+    onOpen,
     isLoading = false,
     title = "Scan Barcode Peminjaman",
     description = "Scan atau masukkan kode barcode untuk mengkonfirmasi peminjaman",
@@ -64,7 +62,7 @@ export function ScanBarcodeCard({
                 <div className="flex w-full items-center gap-3">
                     {/* Input Wrapper dengan Icon di dalamnya */}
                     <div className="relative flex-1 group">
-                        <ScanLine className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-emerald-400 transition-colors" />
+                        <ScanLine onClick={() => onOpen("scanPeminjaman")} className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-emerald-400 transition-colors" />
                         <Input
                             type="text"
                             placeholder="Masukkan atau scan barcode..."

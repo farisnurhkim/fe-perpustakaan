@@ -13,6 +13,7 @@ import ModalEditBuku from "../modal/modal-edit-buku";
 import ModalSuccessPeminjaman from "../modal/modal-success-peminjaman";
 import ModalKonfirmasiPeminjaman from "../modal/modal-konfirmasi-peminjaman";
 import ModalStrukPeminjaman from "../modal/modal-struk-peminjaman";
+import ModalScanPeminjaman from "../modal/modal-scan-peminjaman";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -37,6 +38,7 @@ const ModalProvider = () => {
       <ModalSuccessPeminjaman/>
       <ModalKonfirmasiPeminjaman/>
       <ModalStrukPeminjaman/>
+      <ModalScanPeminjaman/>
     </ReactQueryProvider>
   )
 }
