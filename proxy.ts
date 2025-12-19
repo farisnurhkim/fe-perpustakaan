@@ -7,9 +7,9 @@ import environment from './config/environment';
 export async function proxy(request: NextRequest) {
     const token = await getToken({
         req: request,
-        cookieName: process.env.VERCEL_ENV === "development"
-                     ? "authjs.session-token"
-                     : "__Secure-authjs.session-token",
+        cookieName: process.env.VERCEL_ENV === "production"
+                     ? "__Secure-authjs.session-token"
+                     : "authjs.session-token",
         secret: environment.AUTH_SECRET,
     });
 
