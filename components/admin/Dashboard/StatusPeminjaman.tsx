@@ -62,7 +62,7 @@ export default function StatusPeminjaman({statusData}: {statusData: StatusItem[]
             </div>
 
             <div className="flex items-center gap-3">
-              <div className={cn("flex items-center justify-center min-w-8 h-8 px-2 rounded-full text-xs font-bold border", getBadgeStyles(item.variant))}>
+              <div className={cn("flex items-center justify-center min-w-8 h-8 px-2 rounded-md text-xs font-bold border", getBadgeStyles(item.variant))}>
                 {item.count}
               </div>
               <ChevronRight className="w-4 h-4 opacity-50" />
