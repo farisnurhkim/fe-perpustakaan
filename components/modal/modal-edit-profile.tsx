@@ -157,7 +157,7 @@ const ModalEditProfile = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Email / Username</FormLabel>
+                                    <FormLabel className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Email</FormLabel>
                                     <FormControl>
                                         <div className="relative">
                                             <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
