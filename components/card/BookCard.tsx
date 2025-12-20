@@ -119,6 +119,12 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
                   toast.success("Stock buku habis")
                   return;
                 }
+
+                if (items.length === 3) {
+                  toast.error("Maksimal peminjaman 3 buku");
+                  return;
+                }
+                
                 handleAddToCart(book)
               }} className='bg-orange-600 hover:bg-orange-600/80'>
                 <ShoppingCart />
