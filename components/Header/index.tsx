@@ -116,7 +116,7 @@ const Header = ({ user }: { user: any }) => {
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator className="bg-slate-700" />
                                 <DropdownMenuItem
-                                    onClick={() => { }}
+                                     onClick={() => { onOpen("ubahProfile") }}
                                     className="text-gray-300 hover:bg-slate-800 focus:bg-slate-800 focus:text-gray-100 cursor-pointer"
                                 >
                                     <UserIcon className="w-4 h-4 mr-2" />
