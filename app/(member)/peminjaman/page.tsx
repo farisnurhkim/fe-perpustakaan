@@ -16,7 +16,7 @@ import PageHeader from '@/components/Header/PageHeader';
 const STATUS_MAP: Record<"menunggu" | "aktif" | "riwayat", StatusPeminjaman[]> = {
     aktif: ["dipinjam", "pending_pengembalian"],
     menunggu: ["pending_peminjaman"],
-    riwayat: ["dikembalikan", "terlambat"],
+    riwayat: ["dikembalikan", "terlambat", "dibatalkan", "stok_habis"],
 };
 
 

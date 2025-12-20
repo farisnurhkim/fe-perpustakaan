@@ -6,8 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { LogOut, Shield, User, UserIcon } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
+import { useModal } from '@/hooks/useModal'
 
 const Header = ({ user }: { user: any }) => {
+    const { onOpen } = useModal();
     return (
         <header className="bg-slate-900 border-b border-slate-700 sticky top-0 z-10 shadow-sm">
             <div className="container px-4 py-4">
@@ -60,7 +62,7 @@ const Header = ({ user }: { user: any }) => {
                                 <DropdownMenuLabel className="text-gray-300">Akun Saya</DropdownMenuLabel>
                                 <DropdownMenuSeparator className="bg-slate-700" />
                                 <DropdownMenuItem
-                                    onClick={() => { }}
+                                    onClick={() => { onOpen("ubahProfile") }}
                                     className="text-gray-300 hover:bg-slate-800 focus:bg-slate-800 focus:text-gray-100 cursor-pointer"
                                 >
                                     <UserIcon className="w-4 h-4 mr-2" />

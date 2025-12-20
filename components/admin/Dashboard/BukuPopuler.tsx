@@ -1,6 +1,7 @@
 "use client"
 import { IPeminjaman } from "@/types/model";
 import { Download, TrendingUp } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 interface BukuPopulerProps {
@@ -8,11 +9,12 @@ interface BukuPopulerProps {
 }
 
 export default function BukuPopuler({ data }: BukuPopulerProps) {
-  
+  const router = useRouter();
+  const dataPeminjaman = data.filter((item) => item.status !== 'dibatalkan' && item.status !== 'stok_habis');
   const popularBooks = useMemo(() => {
     const bookMap = new Map<string, { title: string; author: string; count: number }>();
 
-    data.forEach((transaksi) => {
+    dataPeminjaman.forEach((transaksi) => {
       transaksi.detail_peminjaman.forEach((item) => {
         const idBuku = item.buku._id as unknown as string;
         const currentData = bookMap.get(idBuku);
@@ -45,7 +47,7 @@ export default function BukuPopuler({ data }: BukuPopulerProps) {
           <TrendingUp className="w-5 h-5" />
           <h3 className="font-semibold text-lg">Buku Paling Populer</h3>
         </div>
-        <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-emerald-400 border border-emerald-400/30 bg-emerald-400/10 rounded-lg hover:bg-emerald-400/20 transition-colors">
+        <button onClick={() => router.push("/admin/export/buku-populer")} className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-emerald-400 border border-emerald-400/30 bg-emerald-400/10 rounded-lg hover:bg-emerald-400/20 transition-colors">
           <Download className="w-3.5 h-3.5" />
           Export
         </button>

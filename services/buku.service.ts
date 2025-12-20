@@ -15,6 +15,7 @@
       kurangiStok: async(id: string, jumlah: number) => instance.patch(`/buku/kurangi-stok/${id}`, { jumlah }),
       ubahBuku: async(payload: any, id: string) => instance.patch(`/buku/ubah/${id}`, payload),
       lihatBuku: async(id: string) => instance.get(`/buku/${id}`),
+      bukuPopuler: async() => instance.get("/buku/populer"),
   }
 
   export default bukuService;

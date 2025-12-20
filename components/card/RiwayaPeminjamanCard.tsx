@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IPeminjaman, StatusPeminjaman } from "@/types/model";
 import { format, differenceInCalendarDays, isAfter } from "date-fns";
-import { BookOpen, Calendar, CheckCircle, Clock, Loader, PackageOpen, QrCode, Receipt } from "lucide-react";
+import { Ban, BookOpen, Calendar, CheckCircle, Clock, Loader, PackageOpen, QrCode, Receipt } from "lucide-react";
 import { Badge } from '@/components/ui/badge';
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -21,6 +21,8 @@ const getStatusColor = (status: StatusPeminjaman) => {
         case 'pending_pengembalian': return 'text-purple-400 border-purple-500/50 bg-purple-500/10';
         case 'dikembalikan': return 'text-green-500 border-green-500/50 bg-green-500/10';
         case 'terlambat': return 'text-red-500 border-red-500/50 bg-red-500/10';
+        case 'dibatalkan': return 'text-slate-500 border-slate-500/50 bg-slate-500/10';
+        case 'stok_habis': return 'text-slate-500 border-slate-500/50 bg-slate-500/10';
         default: return 'text-slate-500';
     }
 };
@@ -32,6 +34,8 @@ const getStatusLabel = (status: StatusPeminjaman) => {
         case 'pending_pengembalian': return 'Menunggu Pengembalian';
         case 'dikembalikan': return 'Dikembalikan';
         case 'terlambat': return 'Terlambat';
+        case 'dibatalkan': return 'Dibatalkan';
+        case 'stok_habis': return 'Stok Habis';
         default: return status;
     }
 };
@@ -97,8 +101,11 @@ export const RiwayatPeminjamanCard = ({ item }: { item: IPeminjaman }) => {
                     {item.status === "dikembalikan" && (
                         <CheckCircle className="w-3 h-3 mr-1" />
                     )}
+                    {item.status === "dibatalkan" && (
+                        <Ban className="w-3 h-3 mr-1" />
+                    )}
 
-                    {item.status === 'pending_peminjaman' && <Clock className="w-3 h-3 mr-1" />}
+                    {item.status === 'pending_peminjaman' || item.status === "terlambat" && <Clock className="w-3 h-3 mr-1" />}
                     {item.status !== "dipinjam" && getStatusLabel(item.status)}
                     {item.status === "dipinjam" && getSisaHari(item.batas_pinjam)}
                 </Badge>
@@ -157,7 +164,7 @@ export const RiwayatPeminjamanCard = ({ item }: { item: IPeminjaman }) => {
                 <div className={cn(
                     (item.status !== "dikembalikan" && item.status !== "terlambat") && "p-4 bg-[#064e3b]/10 border-t border-emerald-900/30"
                 )}>
-                    {(item.status !== "dipinjam" && item.status !== "dikembalikan" && item.status !== "terlambat") && (
+                    {(item.status !== "dipinjam" && item.status !== "dikembalikan" && item.status !== "terlambat" && item.status !== "stok_habis" && item.status !== "dibatalkan") && (
                         <div className="flex flex-col gap-3">
                             <div className="flex justify-between items-center">
                                 <div className="text-emerald-400/80">

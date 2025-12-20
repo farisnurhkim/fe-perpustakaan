@@ -17,6 +17,9 @@ import ModalScanPeminjaman from "../modal/modal-scan-peminjaman";
 import ModalKonfirmasiPengembalian from "../modal/modal-konfirmasi-pengembalian";
 import ModalStrukPengembalian from "../modal/modal-struk-pengembalian";
 import ModalScanPengembalian from "../modal/modal-scan-pengembalian";
+import ModalEditProfile from "../modal/modal-edit-profile";
+import { SessionProvider } from "next-auth/react";
+import ModalEditAlamat from "../modal/modal-edit-alamat";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -31,20 +34,25 @@ const ModalProvider = () => {
 
   return (
     <ReactQueryProvider>
-      <ModalStatsDipinjam />
-      <ModalStatsPendingPeminjaman />
-      <ModalStatsPendingPengembalian />
-      <ModalStatsDenda />
-      <ModalCreateBuku />
-      <ModalDeleteBuku/>
-      <ModalEditBuku/>
-      <ModalSuccessPeminjaman/>
-      <ModalKonfirmasiPeminjaman/>
-      <ModalStrukPeminjaman/>
-      <ModalScanPeminjaman/>
-      <ModalKonfirmasiPengembalian/>
-      <ModalStrukPengembalian/>
-      <ModalScanPengembalian/>
+      <SessionProvider>
+        <ModalStatsDipinjam />
+        <ModalStatsPendingPeminjaman />
+        <ModalStatsPendingPengembalian />
+        <ModalStatsDenda />
+        <ModalCreateBuku />
+        <ModalDeleteBuku />
+        <ModalEditBuku />
+        <ModalSuccessPeminjaman />
+        <ModalKonfirmasiPeminjaman />
+        <ModalStrukPeminjaman />
+        <ModalScanPeminjaman />
+        <ModalKonfirmasiPengembalian />
+        <ModalStrukPengembalian />
+        <ModalScanPengembalian />
+        <ModalEditProfile />
+        <ModalEditAlamat/>
+      </SessionProvider>
+
     </ReactQueryProvider>
   )
 }

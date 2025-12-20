@@ -115,14 +115,6 @@ export const CartSummary = ({ totalBooks, totalTitles }: CartSummaryProps) => {
     mutate(payload)
   }
 
-  console.log(`
-
-    tanggal_pinjam:
-    ${date?.toISOString()}
-
-    batas_pinjam:
-   ${returnDate?.toISOString()} 
-    `)
   return (
     <Card className="bg-slate-900 border-slate-800 text-white sticky top-24">
       <CardHeader className="pb-4">

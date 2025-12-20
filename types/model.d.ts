@@ -12,14 +12,13 @@ export interface IUser {
     nama: string;
     email: string;
     password: string;
-    tgl_lahir: Date;
     alamat: Alamat;
     no_telp: string;
     status_user: "admin" | "member";
     di_blokir: boolean;
 }
 
-export type StatusPeminjaman = 'dipinjam' | 'dikembalikan' | 'terlambat' | 'pending_pengembalian' | 'pending_peminjaman'
+export type StatusPeminjaman = 'dipinjam' | 'dikembalikan' | 'terlambat' | 'pending_pengembalian' | 'pending_peminjaman' | 'dibatalkan' | 'stok_habis';
 
 export interface IPeminjaman{
     _id:string;

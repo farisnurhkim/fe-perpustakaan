@@ -49,6 +49,26 @@ export const navigationLinkAdmin: NavigationLink[] = [
 ]
 
 export const categories = [
-    "Semua Kategori", "Fiksi", "Non-Fiksi", "Sains", "Pengembangan Diri",
-    "Keuangan", "Teknologi", "Sejarah", "Fantasi",
+    "Semua Kategori",
+    "Fiksi",
+    "Non-Fiksi",
+    "Sains",
+    "Teknologi",
+    "Pengembangan Diri",
+    "Bisnis & Ekonomi", 
+    "Sejarah",
+    "Fantasi",
+    "Fiksi Ilmiah",
+    "Misteri & Thriller",
+    "Romansa",
+    "Horor",
+    "Biografi",
+    "Agama & Spiritual",
+    "Psikologi",
+    "Kesehatan",
+    "Pendidikan",
+    "Sastra & Puisi",
+    "Komik & Grafis",
+    "Hukum & Politik",
+    "Seni & Desain"
 ];
