@@ -8,22 +8,24 @@ export type StatsBuku = {
     isError: boolean;
 }
 
-const getStatsBooks = async () => {
-    let dataBuku;
+const getStatsBooks = async (): Promise<StatsBuku> => { 
+    let dataBuku: IBuku[] = []; 
     let isError = false;
+
     try {
         const resultAllBook = await bukuService.listBuku();
         dataBuku = resultAllBook?.data?.data || [];
 
     } catch (error) {
-        isError = true
-        console.log(error)
+        isError = true;
+        console.error("Gagal mengambil data buku:", error); 
     }
 
     const totalBuku = dataBuku.length;
+    
     const totalStock = dataBuku.reduce((total: number, item: IBuku) => {
-        return total + item.stok;
-    }, 0)
+        return total + (item.stok || 0);
+    }, 0);
 
     const stockHabis = dataBuku.filter((item: IBuku) => item.stok === 0).length;
 
@@ -33,7 +35,6 @@ const getStatsBooks = async () => {
         stockHabis,
         isError
     }
-
 }
 
-export default getStatsBooks
+export default getStatsBooks;
