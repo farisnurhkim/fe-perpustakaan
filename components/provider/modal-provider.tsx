@@ -20,6 +20,7 @@ import ModalScanPengembalian from "../modal/modal-scan-pengembalian";
 import ModalEditProfile from "../modal/modal-edit-profile";
 import { SessionProvider } from "next-auth/react";
 import ModalEditAlamat from "../modal/modal-edit-alamat";
+import ModalDetailBuku from "../modal/modal-detail-buku";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -51,6 +52,7 @@ const ModalProvider = () => {
         <ModalScanPengembalian />
         <ModalEditProfile />
         <ModalEditAlamat/>
+        <ModalDetailBuku/>
       </SessionProvider>
 
     </ReactQueryProvider>

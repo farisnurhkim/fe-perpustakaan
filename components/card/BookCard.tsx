@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Edit, Trash2, Plus, Minus, Package, ShoppingCart, Check } from 'lucide-react';
+import { Edit, Trash2, Plus, Minus, Package, ShoppingCart, Check, Info } from 'lucide-react';
 import Image from 'next/image'; // Pastikan domain gambar sudah di config next.config.js jika pakai URL luar
 import { IBuku } from '@/types/model';
 import { useModal } from '@/hooks/useModal';
@@ -90,9 +90,15 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
           {penulis}
         </p>
 
-        <p className="text-slate-500 text-xs mb-4">
+        <p className="text-slate-500 text-xs mb-2">
           {penerbit} • {tahun_terbit}
         </p>
+        {type === "member" && (
+          <div onClick={() => onOpen("detailBuku", { buku: book })} className="flex items-center gap-2 cursor-pointer text-orange-400 hover:text-orange-300">
+            <Info className='w-3 h-3 sm:w-4 sm:h-4 ' />
+            <span className='text-sm sm:text-base'>Lihat detail</span>
+          </div>
+        )}
 
         <div className="mt-auto flex justify-between items-center mb-4 pt-3 border-t border-slate-700/50">
           <span className="text-slate-400 text-sm">Stok</span>
@@ -114,7 +120,7 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
                   return;
                 }
                 const booksItem = items.find((data) => data.buku._id === book._id);
-                
+
                 if (booksItem && booksItem?.qty >= book.stok) {
                   toast.success("Stock buku habis")
                   return;
@@ -124,7 +130,7 @@ const BookCard = ({ book, type }: { book: IBuku; type: "admin" | "member" }) => 
                   toast.error("Maksimal peminjaman 3 buku");
                   return;
                 }
-                
+
                 handleAddToCart(book)
               }} className='bg-orange-600 hover:bg-orange-600/80'>
                 <ShoppingCart />

@@ -74,6 +74,7 @@ const KeranjangPage = () => {
                                     <ItemsCartCard
                                         key={item.buku._id}
                                         item={item}
+                                        items={cart.items}
                                         onIncrease={cart.increment}
                                         onDecrease={cart.decrement}
                                         onRemove={cart.removeFromCart}
