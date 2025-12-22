@@ -65,7 +65,7 @@ export const ItemsCartCard = ({ item, items, onDecrease, onIncrease, onRemove, c
                   toast.error("Maksimal peminjaman 3 buku");
                   return;
                 }
-
+                
                 onIncrease(_id as string)
               }}
             >

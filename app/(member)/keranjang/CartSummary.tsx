@@ -253,7 +253,7 @@ export const CartSummary = ({ totalBooks, totalTitles }: CartSummaryProps) => {
       <CardFooter className="pt-0 pb-4">
         <div className="flex items-center gap-2 text-xs text-slate-500 mx-auto">
           <Lightbulb className="h-3 w-3 text-yellow-600" />
-          Denda keterlambatan: Rp 2.000/buku/hari
+          Denda keterlambatan: Rp 2.000/hari
         </div>
       </CardFooter>
     </Card>

@@ -154,7 +154,7 @@ const Register = () => {
                                 </p>
                             </div>
 
-                            <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                            <Button disabled={isPending} type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
                                 {isPending && (
                                     <Loader className="w-4 h-4 mr-2 animate-spin" />
                                 )}
