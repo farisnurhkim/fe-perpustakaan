@@ -10,6 +10,7 @@ import { useRef, useState } from 'react';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import jsPDF from 'jspdf';
 import { toPng } from 'html-to-image';
+import { id } from 'date-fns/locale';
 
 const ModalStrukPengembalian = () => {
     const { data, isOpen, onClose, modalType } = useModal();
@@ -138,11 +139,11 @@ const ModalStrukPengembalian = () => {
                     <div className="my-3 space-y-1">
                         <div className="flex justify-between">
                             <span className="text-slate-600">Tanggal</span>
-                            <span className="font-medium">{format(new Date(), "dd/MM/yyyy")}</span>
+                            <span className="font-medium">{format(new Date(peminjaman.pengembalian?.tgl_kembali || new Date()), "dd/MM/yyyy", {locale: id})}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-slate-600">Waktu</span>
-                            <span className="font-medium">{format(new Date(), "HH.mm.ss")}</span>
+                            <span className="font-medium">{format(new Date(new Date(peminjaman.pengembalian?.tgl_kembali || new Date())), "HH.mm.ss", {locale: id})}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-slate-600">No. Invoice</span>
